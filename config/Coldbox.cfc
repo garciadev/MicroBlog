@@ -99,6 +99,45 @@
 			}
 		];
 
+		//Datasources
+		datasources = {
+			microBlog   = {name="microBlog", dbType="mysql"}
+		};
+
+		// Antisamy settings
+		antisamy = {
+		    // Activate auto request capture cleanups interceptor
+		    autoClean = false,
+		    // Default Policy to use, available are: antisamy, ebay, myspace, slashdot and tinymce
+		    defaultPolicy = "ebay",
+		    // Custom Policy absolute path, leave empty if not used
+		    customPolicy = ""
+		};
+
+		// Debugger Settings
+		debugger = {
+		    // Activate debugger for everybody
+		    debugMode = true,
+		    // Setup a password for the panel
+		    debugPassword = "",
+		    enableDumpVar = true,
+		    persistentRequestProfiler = true,
+		    maxPersistentRequestProfilers = 10,
+		    maxRCPanelQueryRows = 50,
+		    showTracerPanel = true,
+		    expandedTracerPanel = true,
+		    showInfoPanel = true,
+		    expandedInfoPanel = true,
+		    showCachePanel = true,
+		    expandedCachePanel = false,
+		    showRCPanel = true,
+		    expandedRCPanel = false,
+		    showModulesPanel = true,
+		    expandedModulesPanel = false,
+		    showRCSnapshots = false,
+		    wireboxCreationProfiler=false
+		};
+
 		/*
 		// module setting overrides
 		moduleSettings = {
@@ -135,11 +174,6 @@
 			eventAction 	 = "index"
 		};
 
-		//Datasources
-		datasources = {
-			mysite   = {name="mySite", dbType="mysql", username="root", password="pass"},
-			blog_dsn = {name="myBlog", dbType="oracle", username="root", password="pass"}
-		};
 		*/
 
 	}
