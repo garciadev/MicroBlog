@@ -66,7 +66,7 @@
 					,Email
 					,username
 					,password
-					,CreatedDate
+					,createdDate
 					,updatedDate
 				)
 				VALUES
@@ -91,7 +91,7 @@
 		<cfset var constraints = libUtility.getConstraints().user>
 
 		<cfquery result="result" datasource="#getDSN().name#">
-			UPDATE User
+			UPDATE user
 			SET  updatedDate = current_timestamp
 
 				<cfif structKeyExists( arguments, "firstName" )>
@@ -115,7 +115,6 @@
 				</cfif>
 
 			WHERE userID = <cfqueryparam cfsqltype="cf_sql_integer" value="#val( arguments.userID )#">
-
 		</cfquery>
 
 		<cfreturn result.recordCount>
@@ -127,7 +126,7 @@
 		<cfset var result = "">
 
 		<cfquery result="result" datasource="#getDSN().name#">
-			DELETE FROM User
+			DELETE FROM user
 			WHERE userID = <cfqueryparam cfsqltype="cf_sql_integer" value="#val( arguments.userID )#">
 		</cfquery>
 

@@ -27,31 +27,32 @@ component {
 		return constraints;
 	}
 
-	/**
-	 * Converts a query object into an array of structures.
-	 *
-	 * @param query      The query to be transformed
-	 * @return This function returns an array.
-	 * @author Nathan Dintenfass (nathan@changemedia.com)
-	 * @version 1, September 27, 2001
-	 * https://cflib.org/udf/QueryToArrayOfStructures
-	 * Small enhancements made by Daniel Garcia
-	 */
-	function QueryToArrayOfStructures( required query theQuery, string columns="" ){
-	    var theArray = arraynew(1);
-	    var cols = listToArray( ListLen( arguments.columns ) > 0 ? trim( arguments.columns ) : arguments.theQuery.getColumnList( false ) );
+	public any function queryToArrayOfStructures( required query theQuery, string columns=""){
 
-	    var row = 1;
-	    var thisRow = "";
-	    var col = 1;
-	    for(row = 1; row LTE theQuery.recordcount; row = row + 1){
-	        thisRow = structnew();
-	        for(col = 1; col LTE arraylen(cols); col = col + 1){
-	            thisRow[cols[col]] = theQuery[cols[col]][row];
-	        }
-	        arrayAppend(theArray,duplicate(thisRow));
-	    }
-	    return(theArray);
+		var returnData = [];
+
+		if( server.coldfusion.productname CONTAINS "Lucee" ){
+			var columnArray = listToArray( ListLen( arguments.columns ) > 0 ? trim( arguments.columns ) : arguments.theQuery.getColumnList( false ) );
+		} else {
+			var columnArray = listToArray( ListLen( arguments.columns ) > 0 ? trim( arguments.columns ) : arguments.theQuery.columnlist );
+		}
+
+		for( var i=1; i<=arguments.theQuery.recordCount; i++ ) {
+			var queryRow = {};
+			for( var x=1; x<=arrayLen( columnArray ); x++ ) {
+				if ( findNoCase( " as ", columnArray[ x ] ) != 0 ) {
+					var columnName = trim( listToArray( columnArray[ x ], " as ", true, true )[2] );
+				} else {
+					var columnName = trim( columnArray[ x ] );
+				}
+
+				if ( !isNull( arguments.theQuery[ columnName ][ i ] ) ) {
+					queryRow[ columnName ] = arguments.theQuery[ columnName ][ i ];
+				}
+			}
+			arrayAppend( returnData, queryRow );
+		}
+		return returnData ;
 	}
 
 	public struct function getJSONData( required string content ){
