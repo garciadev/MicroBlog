@@ -39,7 +39,7 @@ component displayName="CategoryService" accessors="true" {
 	public struct function create() {
 
 		var data = {
-			"success" : false
+			"recordID" : 0
 		};
 
 		validateCategory();
@@ -57,7 +57,7 @@ component displayName="CategoryService" accessors="true" {
 					slug : getSlug()
 				};
 
-				data.success = categoryDAO.create( argumentCollection=input );
+				data.recordID = categoryDAO.create( argumentCollection=input );
 			}
 
 		}

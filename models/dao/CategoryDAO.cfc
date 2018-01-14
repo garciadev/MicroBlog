@@ -69,7 +69,7 @@
 				)
 			</cfquery>
 
-		<cfreturn true>
+		<cfreturn result.GENERATED_KEY>
 	</cffunction>
 
 	<cffunction name="update" access="public" returntype="string" output="false" hint="Update a record in category table.">

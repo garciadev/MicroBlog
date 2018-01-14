@@ -9,9 +9,10 @@
 		<cfargument name="title" type="string" required="false" default="">
 		<cfargument name="permaLink" type="string" required="false" default="">
 
-		<cfset var result = {}>
+		<cfset var config = {}>
+		<cfset var data = []>
 
-		<cfquery name="result" datasource="#getDSN().name#">
+		<cfquery name="config.result" datasource="#getDSN().name#">
 			SELECT  contentID
 				   ,title
 				   ,permaLink
@@ -42,7 +43,41 @@
 			ORDER BY title, permaLink
 		</cfquery>
 
-		<cfreturn libUtility.QueryToArrayOfStructures( result )>
+
+		<cfloop query="#config.result#">
+
+			<cfset config.item = {
+				"contentID" : config.result.contentID,
+				"title" : config.result.title,
+				"permaLink" : config.result.permaLink,
+				"body" : config.result.body,
+				"createdDate" : config.result.createdDate,
+				"updatedDate" : config.result.updatedDate,
+				"categories" : []
+			}>
+
+			<cfquery name="config.getCategories" datasource="#getDSN().name#">
+				SELECT category.categoryID, category.category
+				FROM content_category
+				INNER JOIN category ON category.categoryID = content_category.categoryID
+				WHERE content_category.contentID = <cfqueryparam cfsqltype="cf_sql_integer" value="#val( config.item.contentID )#">
+				ORDER BY category.category
+			</cfquery>
+
+			<cfloop query="#config.getCategories#">
+				<cfset config.categoryItem = {
+					"categoryID" : config.getCategories.categoryID,
+					"category" : config.getCategories.category
+				}>
+
+				<cfset arrayAppend( config.item.categories, config.categoryItem )>
+			</cfloop>
+
+			<cfset arrayAppend( data, config.item )>
+
+		</cfloop>
+
+		<cfreturn data>
 
 	</cffunction>
 
@@ -73,7 +108,7 @@
 				)
 			</cfquery>
 
-		<cfreturn true>
+		<cfreturn result.GENERATED_KEY>
 	</cffunction>
 
 	<cffunction name="update" access="public" returntype="string" output="false" hint="Update a record in content table.">
@@ -120,6 +155,44 @@
 		</cfquery>
 
 		<cfreturn result.recordCount>
+	</cffunction>
+
+	<cffunction name="updateContent_category" access="public" returntype="boolean" output="false" hint="Inserts a record into content table.">
+		<cfargument name="contentID" type="numeric" required="false" default="0">
+		<cfargument name="categoryIDs" type="string" required="false" default="">
+
+		<cfset var categoryIndex = "">
+		<cfset var result = "">
+
+		<cfquery result="result" datasource="#getDSN().name#">
+			DELETE FROM content_category
+			WHERE contentID = <cfqueryparam cfsqltype="cf_sql_integer" value="#val( arguments.contentID )#">
+		</cfquery>
+
+		<cfloop list="#arguments.categoryIDs#" index="categoryIndex">
+
+			<cfquery result="result" datasource="#getDSN().name#">
+				INSERT INTO content_category
+					(
+						 contentID
+						,categoryID
+					)
+					VALUES
+					(
+						 <cfqueryparam cfsqltype="cf_sql_integer" value="#val( arguments.contentID )#">
+						,<cfqueryparam cfsqltype="cf_sql_integer" value="#val( categoryIndex )#">
+					)
+			</cfquery>
+
+		</cfloop>
+
+		<!---  TODO:  Add other validation to make sure category exists.  For now, just delete any records that aren't a category  --->
+		<cfquery datasource="#getDSN().name#">
+			DELETE FROM content_category
+			WHERE categoryID NOT IN ( SELECT categoryID FROM category )
+		</cfquery>
+
+		<cfreturn true>
 	</cffunction>
 
 </cfcomponent>

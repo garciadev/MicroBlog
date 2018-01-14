@@ -6,6 +6,7 @@ component displayName="ContentService" accessors="true" {
 	property name="title" type="string";
 	property name="permaLink" type="string";
 	property name="body" type="string";
+	property name="categoryIDs" type="string" default="";
 
 	property name="errors" type="array" setter="false";
 
@@ -40,7 +41,7 @@ component displayName="ContentService" accessors="true" {
 	public struct function create() {
 
 		var data = {
-			"success" : false
+			"recordID" : 0
 		};
 
 		validateTitle();
@@ -60,9 +61,10 @@ component displayName="ContentService" accessors="true" {
 					body : getBody()
 				};
 
-				data.success = contentDAO.create( argumentCollection=input );
+				data.recordID = contentDAO.create( argumentCollection=input );
+				setContentID( data.recordID );
+				updateContent_category();
 			}
-
 		}
 
 		return data;
@@ -93,6 +95,7 @@ component displayName="ContentService" accessors="true" {
 				};
 
 				data.rowsAffected = contentDAO.update( argumentCollection=input );
+				updateContent_category();
 			}
 
 		}
@@ -114,7 +117,9 @@ component displayName="ContentService" accessors="true" {
 		return data;
 	}
 
-	//  TODO:  Add content category functions
+	public void function updateContent_category() {
+		contentDAO.updateContent_category( contentID=getContentID(), categoryIDs=getCategoryIDs() );
+	}
 
 	//------------------------------------ Validate Functions ------------------------------------------
 

@@ -43,7 +43,7 @@ component displayName="UserService" accessors="true" {
 	public struct function create() {
 
 		var data = {
-			"success" : false
+			"recordID" : 0
 		};
 
 		validateFirstName();
@@ -69,7 +69,7 @@ component displayName="UserService" accessors="true" {
 					password : hashedPassword
 				};
 
-				data.success = UserDAO.create( argumentCollection=input );
+				data.recordID = UserDAO.create( argumentCollection=input );
 			}
 
 		}
