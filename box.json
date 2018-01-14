@@ -1,43 +1,36 @@
 {
-    "name":"Advanced Script APP Template",
-    "version":"1.5.0",
-    "author":"You",
-    "location":"https://github.com/coldbox-templates/advanced-script/archive/v1.5.0.zip",
-    "slug":"cbtemplate-advanced-script",
-    "createPackageDirectory":false,
-    "type":"mvc",
-    "keywords":"",
-    "homepage":"",
-    "documentation":"",
+    "name":"admin",
+    "version":"0.0.0",
+    "author":"",
+    "location":"test/admin#v0.0.0",
+    "homepage":"https://github.com/test/admin",
+    "documentation":"https://github.com/test/admin",
     "repository":{
-        "type":"",
-        "url":""
+        "type":"git",
+        "URL":"https://github.com/test/admin"
     },
-    "bugs":"",
-    "shortDescription":"",
-    "contributors":[],
-    "ignore":[],
+    "bugs":"https://github.com/test/admin/issues",
+    "slug":"admin",
+    "shortDescription":"Admin Module",
+    "description":"Admin Module",
+    "type":"modules",
+    "dependencies":{},
     "devDependencies":{
-        "testbox":"^2.3.0"
+        "coldbox":"^4.3.0+188",
+        "testbox":"^2.4.0+80"
     },
     "installPaths":{
-        "coldbox":"coldbox",
-        "testbox":"testbox",
-        "cbstorages":"modules/cbstorages",
-        "cbantisamy":"modules/cbantisamy",
-        "cbdebugger":"modules/cbdebugger",
-        "BCrypt":"modules/BCrypt"
-    },
-    "dependencies":{
-        "coldbox":"^4.3.0",
-        "testbox":"^2.5.0+107",
-        "cbstorages":"^1.4.0+19",
-        "cbantisamy":"^1.3.1+13",
-        "cbdebugger":"^1.6.0+22",
-        "BCrypt":"^2.5.0+25"
+        "testbox":"testbox/",
+        "coldbox":"tests/resources/app/coldbox"
     },
     "scripts":{
-        "postVersion":"package set location='https://github.com/coldbox-templates/advanced-script/archive/v`package version`.zip'",
-        "postPublish":"!git push --follow-tags"
-    }
+        "postVersion":"package set location='test/admin#v`package version`'",
+        "onRelease":"publish",
+        "postPublish":"!git push && !git push --tags"
+    },
+    "ignore":[
+        "**/.*",
+        "test",
+        "tests"
+    ]
 }
