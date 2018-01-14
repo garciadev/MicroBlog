@@ -1,6 +1,7 @@
 component displayName="UserService" accessors="true" {
 
 	property name="UserDAO" inject="dao.UserDAO";
+	property name="BCrypt" inject="BCrypt@BCrypt";
 
 	property name="userID" type="string";
 	property name="firstName" type="string";
@@ -21,13 +22,13 @@ component displayName="UserService" accessors="true" {
 	}
 
 	public struct function list() {
-		return { "users": UserDAO.read() };
+		return { "users" : UserDAO.read() };
 	}
 
 	public struct function getBy( string userID=0 ) {
 
 		var data = {
-			"user": []
+			"user" : []
 		};
 
 		validateUserID();
@@ -42,7 +43,7 @@ component displayName="UserService" accessors="true" {
 	public struct function create() {
 
 		var data = {
-			"success": false
+			"success" : false
 		};
 
 		validateFirstName();
@@ -58,12 +59,14 @@ component displayName="UserService" accessors="true" {
 
 			if ( getErrors().isEmpty() ) {
 
+				var hashedPassword = BCrypt.hashPassword( getPassword() );
+
 				var input = {
 					firstName : getFirstName(),
 					lastName : getLastName(),
 					email : getEmail(),
 					username : getUsername(),
-					password : getPassword()
+					password : hashedPassword
 				};
 
 				data.success = UserDAO.create( argumentCollection=input );
@@ -76,7 +79,7 @@ component displayName="UserService" accessors="true" {
 
 	public struct function update() {
 		var data = {
-			"rowsAffected": 0
+			"rowsAffected" : 0
 		};
 
 		validateUserID();
@@ -84,7 +87,6 @@ component displayName="UserService" accessors="true" {
 		validateLastName();
 		validateEmail();
 		validateUsername();
-		validatePassword();
 
 		if ( getErrors().isEmpty() ) {
 
@@ -98,9 +100,14 @@ component displayName="UserService" accessors="true" {
 					firstName : getFirstName(),
 					lastName : getLastName(),
 					email : getEmail(),
-					username : getUsername(),
-					password : getPassword()
+					username : getUsername()
 				};
+
+
+				if ( structKeyExists( variables, "password" ) && getPassword().trim().len() > 0 ) {
+					var hashedPassword = BCrypt.hashPassword( getPassword() );
+					input.password = hashedPassword;
+				}
 
 				data.rowsAffected = UserDAO.update( argumentCollection=input );
 			}
@@ -112,7 +119,7 @@ component displayName="UserService" accessors="true" {
 
 	public struct function delete() {
 		var data = {
-			"rowsAffected": 0
+			"rowsAffected" : 0
 		};
 
 		validateUserID();
@@ -123,6 +130,10 @@ component displayName="UserService" accessors="true" {
 
 		return data;
 	}
+
+
+	//  TODO:  Add login functions
+
 
 	//------------------------------------ Validate Functions ------------------------------------------
 

@@ -4,22 +4,22 @@ component {
 
 		var constraints = {
 
-			category: {
-				category: 50,
-				slug: 50
+			category : {
+				category : 50,
+				slug : 50
 			},
 
-			content: {
-				title: 150,
-				permaLink: 50
+			content : {
+				title : 150,
+				permaLink : 50
 			},
 
-			user: {
-				firstName: 50,
-				lastName: 50,
-				email: 150,
-				username: 150,
-				password: 250
+			user : {
+				firstName : 50,
+				lastName : 50,
+				email : 150,
+				username : 150,
+				password : 250
 			}
 
 		};

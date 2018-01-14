@@ -104,6 +104,11 @@
 			microBlog   = {name="microBlog", dbType="mysql"}
 		};
 
+		// BCrypt Module
+		BCrypt = {
+		    workFactor = 12
+		};
+
 		// Antisamy settings
 		antisamy = {
 		    // Activate auto request capture cleanups interceptor

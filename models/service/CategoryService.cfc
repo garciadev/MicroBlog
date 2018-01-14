@@ -18,13 +18,13 @@ component displayName="CategoryService" accessors="true" {
 	}
 
 	public struct function list() {
-		return { "categories": categoryDAO.read() };
+		return { "categories" : categoryDAO.read() };
 	}
 
 	public struct function getBy( string categoryID=0 ) {
 
 		var data = {
-			"category": []
+			"category" : []
 		};
 
 		validateCategoryID();
@@ -39,7 +39,7 @@ component displayName="CategoryService" accessors="true" {
 	public struct function create() {
 
 		var data = {
-			"success": false
+			"success" : false
 		};
 
 		validateCategory();
@@ -67,7 +67,7 @@ component displayName="CategoryService" accessors="true" {
 
 	public struct function update() {
 		var data = {
-			"rowsAffected": 0
+			"rowsAffected" : 0
 		};
 
 		validateCategoryID();
@@ -97,7 +97,7 @@ component displayName="CategoryService" accessors="true" {
 
 	public struct function delete() {
 		var data = {
-			"rowsAffected": 0
+			"rowsAffected" : 0
 		};
 
 		validateCategoryID();

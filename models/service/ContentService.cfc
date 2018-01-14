@@ -19,13 +19,13 @@ component displayName="ContentService" accessors="true" {
 	}
 
 	public struct function list() {
-		return { "content": contentDAO.read() };
+		return { "content" : contentDAO.read() };
 	}
 
 	public struct function getBy( string contentID=0 ) {
 
 		var data = {
-			"content": []
+			"content" : []
 		};
 
 		validateContentID();
@@ -40,7 +40,7 @@ component displayName="ContentService" accessors="true" {
 	public struct function create() {
 
 		var data = {
-			"success": false
+			"success" : false
 		};
 
 		validateTitle();
@@ -70,7 +70,7 @@ component displayName="ContentService" accessors="true" {
 
 	public struct function update() {
 		var data = {
-			"rowsAffected": 0
+			"rowsAffected" : 0
 		};
 
 		validateContentID();
@@ -102,7 +102,7 @@ component displayName="ContentService" accessors="true" {
 
 	public struct function delete() {
 		var data = {
-			"rowsAffected": 0
+			"rowsAffected" : 0
 		};
 
 		validateContentID();
@@ -113,6 +113,8 @@ component displayName="ContentService" accessors="true" {
 
 		return data;
 	}
+
+	//  TODO:  Add content category functions
 
 	//------------------------------------ Validate Functions ------------------------------------------
 
